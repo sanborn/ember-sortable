@@ -738,11 +738,20 @@ function getX(event) {
   @private
 */
 function getBorderSpacing(el) {
-  let css = getComputedStyle(el).borderSpacing; // '0px 0px'
-  let [horizontal, vertical] = css.split(' ');
+  let css = getComputedStyle(el).borderSpacing || '0px';
+  let parts = css.split(' ');
+
+  let horizontal = parts[0];
+  let vertical = parts.length > 1 ? parts[1] : parts[0];
+
+  let h = parseFloat(horizontal);
+  let v = parseFloat(vertical);
+
+  if (isNaN(h)) h = 0;
+  if (isNaN(v)) v = 0;
 
   return {
     horizontal: parseFloat(horizontal),
     vertical: parseFloat(vertical)
   };
-}
+ }
